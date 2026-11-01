@@ -1,0 +1,25 @@
+﻿@model Longsleeve
+
+<form asp-action="Create" method="Post">
+    <div class="mb-3">
+        <label asp-for="Color" class="form-label"></label>
+        <select asp-for="Color" asp-items="Html.GetEnumSelectList<LongsleeveColor>()" class="form-select"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Size" class="form-label"></label>
+        <select asp-for="Size" asp-items="Html.GetEnumSelectList<LongsleeveSize>()" class="form-select"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Quantity" class="form-label"></label>
+        <input asp-for="Quantity" class="form-control"/>
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="UnitCost" class="form-label">Koszt</label>
+        <input asp-for="UnitCost" class="form-control"></input>
+        <span asp-validation-for="UnitCost" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+
+</form>
+

@@ -1,0 +1,44 @@
+﻿
+@model List<Longsleeve>
+<h1>Magazyn longsleeves</h1>
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Kolor</th>
+        <th>Rozmiar</th>
+        <th>Ilość</th>
+        <th>Cena jednostkowa</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (Longsleeve l in Model)
+    {
+        <tr>
+            <td>@l.Id</td>
+            <td>@l.Color.GetDisplayName()</td>
+            <td>@l.Size</td>
+            @{
+                var kolor = l.Quantity <= 2 ? "lightcoral"
+                    : l.Quantity <= 4 ? "lightgoldenrodyellow"
+                    : "";
+            }
+            <td style="background-color: @kolor">@l.Quantity</td>
+            <td>@l.UnitCost</td>
+            <td><a asp-action="Edit" asp-route-id="@l.Id">Edytuj</a></td>
+            <td><form asp-action="Delete" method="POST" onsubmit="return confirm('Czy na pewno chcesz usunąć?');">
+                <input type="hidden" name="id" value="@l.Id">
+                <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+            </form></td>
+        </tr>
+    }
+    </tbody>
+</table>
+<a asp-action="Create" class="btn btn-success">Dodaj</a>

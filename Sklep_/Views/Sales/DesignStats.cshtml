@@ -1,0 +1,23 @@
+﻿@model List<Sklep_.ViewModel.DesignStats>
+
+<h1>Statystyki sprzedaży wzorów</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Data</th>
+        <th>Wzór</th>
+        <th>Ilość</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var s in Model)
+    {
+        <tr>
+            <td>@s.Year-@s.Month</td>
+            <td>@s.DesignName</td>
+            <td>@s.Quantity</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,36 @@
+﻿
+@using Sklep_.Models.Sales
+@model Sklep_.Models.Sales.Sale
+<h1>Edycja sprzedaży</h1>
+<form asp-action="Edit" method="post">
+    <input asp-for="Id" type="hidden"/>
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Cena</label>
+        <input asp-for="Price" class="form-control"/>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Date" class="form-label">Data</label>
+        <input asp-for="Date" class="form-control"/>
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="VintedProfile" class="form-label"></label>
+        <select asp-for="VintedProfile" asp-items="Html.GetEnumSelectList(typeof(Profile))" class="form-select"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="LongsleeveColor" class="form-label">Kolor Longsleeva</label>
+        <select asp-for="LongsleeveColor" asp-items="Html.GetEnumSelectList(typeof(LongsleeveColor))" class="form-select"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="LongsleeveSize" class="form-label">Rozmiar Longsleeva</label>
+        <select asp-for="LongsleeveSize" asp-items="Html.GetEnumSelectList(typeof(LongsleeveSize))" class="form-select"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="DesignId" class="form-label">Wzór</label>
+        <select asp-for="DesignId" asp-items="@ViewBag.Designs" class="form-select"></select>
+    </div>
+    <span asp-validation-for="LongsleeveId" class="text-danger"></span>
+    <button type="submit" class="btn btn-success">Zapisz</button>
+</form>
+

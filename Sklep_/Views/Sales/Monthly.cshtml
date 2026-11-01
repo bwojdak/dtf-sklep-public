@@ -1,0 +1,25 @@
+﻿@model List<Sklep_.ViewModel.MonthlySummary>
+<h1>Podsumowanie</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Data</th>
+        <th>Profil</th>
+        <th>Ilość</th>
+        <th>Przychód</th>
+        <th>Zysk</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var s in Model)
+    {
+        <tr>
+            <td>@s.Year-@s.Month</td>
+            <td>@s.VintedProfile</td>
+            <td>@s.Quantity</td>
+            <td>@s.Income</td>
+            <td>@s.Profit</td>
+        </tr>
+    }
+    </tbody>
+</table>

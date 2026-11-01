@@ -1,0 +1,33 @@
+﻿@model List<Sklep_.Models.Vinted.VintedListing>
+<h1>Oferty do potwierdzenia</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Zdjęcie</th>
+        <th>Profil</th>
+        <th>Tytuł</th>
+        <th>Cena</th>
+        <th>Rozmiar</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var l in Model)
+    {
+        <tr>
+            <td><img src="@l.ImageUrl" width="100"/></td>
+            <td>@l.Profile</td>
+            <td>@l.Title</td>
+            <td>@l.Price</td>
+            <td>@l.LongsleeveSize</td>
+            <td><form asp-action="Reject" method="POST" onsubmit="return confirm('Czy na pewno chcesz odrzucić?');">
+                <input type="hidden" name="id" value="@l.Id">
+                <button type="submit" class="btn btn-sm btn-danger">Odrzuć</button>
+            </form></td>
+            <td><a asp-controller="Sales" asp-action="Create" 
+                   asp-route-vintedListingId="@l.Id" class="btn btn-sm btn-success">Sprzedane</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

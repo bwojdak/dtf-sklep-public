@@ -1,0 +1,36 @@
+﻿@model Sklep_.Models.Descriptions.Description
+<h1>Generator opisów</h1>
+<form asp-action="Index" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Color" class="form-label">Kolor</label>
+        <select asp-for="Color" asp-items="Html.GetEnumSelectList<LongsleeveColor>()" class="form-select"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Size" class="form-label">Rozmiar</label>
+        <select asp-for="Size" asp-items="Html.GetEnumSelectList<LongsleeveSize>()" class="form-select"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="DesignId" class="form-label">Wzór</label>
+        <select asp-for="DesignId" asp-items="@ViewBag.Designs" class="form-select"></select>
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Generuj</button>
+</form>
+@if (ViewBag.wynik != null)
+{
+    <div class="border border-secondary rounded p-3 bg-light">
+        <h3>Wygenerowany opis od AI:</h3>
+        <p id="wynik" style="white-space: pre-line;">@ViewBag.Wynik</p>
+        <button type="button" class="btn btn-secondary" onclick="kopiuj()">Kopiuj</button>
+    </div>
+}
+@section Scripts 
+{
+    <script>
+        function kopiuj()
+        {
+            const tekst = document.getElementById("wynik").innerText;
+            navigator.clipboard.writeText(tekst);
+        }
+    </script>
+}

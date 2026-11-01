@@ -1,0 +1,8 @@
+﻿@model Design;
+<h1>@Model.Name</h1>
+<div>@Model.Type, @(Model.PrintCost?.ToString("0.00 zł") ?? "-"), @Model.Description</div>
+@if (Model.ImgPath != null)
+{
+    <img class="img-fluid" style="max-height: 400px" alt="@Model.Name "src="@Model.ImgPath"/>
+}
+<p><a asp-action="Index">← Wróć do listy</a></p>

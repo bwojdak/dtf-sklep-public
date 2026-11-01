@@ -1,0 +1,43 @@
+﻿@model List<Sklep_.Models.Sales.Sale>
+<h1>Lista sprzedaży</h1>
+<a asp-action="Create" class="btn btn-success">Dodaj</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Data</th>
+        <th>Profil</th>
+        <th>Wzór</th>
+        <th>Longsleeve</th>
+        <th>Cena</th>
+        <th>Zysk</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var s in Model)
+    {
+        <tr>
+            <td>@s.Id</td>
+            <td>@s.Date</td>
+            <td>@s.VintedProfile</td>
+            <td>@s.Design?.Name</td>
+            <td>@s.Longsleeve?.Color.GetDisplayName() @s.Longsleeve?.Size</td>
+            <td>@s.Price</td>
+            <td>@s.Profit</td>
+            <td><a asp-action="Edit" asp-route-id="@s.Id">Edytuj</a></td>
+            <td>
+                <form asp-action="Delete" method="POST" onsubmit="return confirm('Czy na pewno chcesz usunąć sprzedaż?');">
+                    <input type="hidden" name="id" value="@s.Id">
+                    <div class="form-check mb-1">
+                        <input type="checkbox" name="returnToStock" value="true" class="form-check-input" id="returnCheck_@s.Id" checked/>
+                        <label class="form-check-label" for="returnCheck_@s.Id">Zwrócić?</label>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

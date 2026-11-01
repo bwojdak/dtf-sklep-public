@@ -1,0 +1,44 @@
+﻿@model List<Design>
+<h1>Wzory</h1>
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+<a asp-action="Create" class="btn btn-success">Dodaj wzór</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nazwa</th>
+        <th>Opis</th>
+        <th>Typ</th>
+        <th>Koszt</th>
+        <th>Zdjęcie</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var d in Model)
+    {
+        <tr>
+            <td>@d.Id</td>
+            <td><a asp-action="Details" asp-route-id="@d.Id">@d.Name</a></td>
+            <td>@d.Description</td>
+            <td>@d.Type</td>
+            <td>@(d.PrintCost?.ToString("0.00 zł") ?? "-")</td>
+            <td>
+                @if (d.ImgPath != null)
+                {
+                    <img class="img-fluid" style="max-height: 50px" src="@d.ImgPath">
+                }
+            </td>
+            <td><a asp-action="Edit" asp-route-id="@d.Id">Edytuj</a></td>
+            <td><form asp-action="Delete" method="POST" onsubmit="return confirm('Czy na pewno chcesz usunąć wzór o nazwie @d.Name?');">
+                <input type="hidden" name="id" value="@d.Id">
+                <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+            </form></td>
+        </tr>
+    }
+    </tbody>
+</table>

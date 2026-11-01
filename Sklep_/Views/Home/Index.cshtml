@@ -1,0 +1,140 @@
+﻿@using System.Globalization
+@model Sklep_.ViewModel.HomeDashboard
+@{
+    ViewData["Title"] = "Strona główna";
+}
+
+<h1 class="h4 text-capitalize mb-4">@DateTime.Now.ToString("MMMM yyyy", new CultureInfo("pl-PL"))</h1>
+<div class="mb-4">
+    <div class="text-secondary">Zysk w tym miesiącu</div>
+    <div class="display-4 fw-semibold">@Model.MonthProfit.ToString("N2") zł
+    </div>
+    <div class="text-secondary">W poprzednim miesiącu:
+        @Model.LastMonthProfit.ToString("N2") zł
+    </div>
+</div>
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+                <div class="text-secondary">Przychód</div>
+                <div class="fs-3 fw-semibold">@Model.MonthIncome.ToString("N2") zł</div>
+                <a asp-controller="Sales" asp-action="Monthly"
+                   class="stretched-link small text-decoration-none mt-auto pt-2">Przejdź do podsumowania miesiąca</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+                <div class="text-secondary">Sprzedane</div>
+                <div class="fs-3 fw-semibold">@Model.MonthQuantity.ToString() szt.</div>
+                <a asp-controller="Sales" asp-action="Index"
+                   class="stretched-link small text-decoration-none mt-auto pt-2">Przejdź do listy sprzedaży</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+                <div class="text-secondary">Do potwierdzenia</div>
+                <div class="fs-3 fw-semibold">@Model.ToConfirmQuantity.ToString()</div>
+                <a asp-controller="VintedListing" asp-action="Index"
+                   class="stretched-link small text-decoration-none mt-auto pt-2">Przejdź do potwierdzeń</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-3 mt-3">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+                <div class="text-secondary mb-2">Niskie stany</div>
+                @if (Model.LowStock.Any())
+                {
+                    @foreach (var s in Model.LowStock)
+                    {
+                        <div class="d-flex justify-content-between">
+                            <span>@s.Color.GetDisplayName() @s.Size</span>
+                            <span class="fw-semibold">@s.Quantity szt.
+                                <span class="badge @(s.Quantity <= 2 ? "bg-danger" : "bg-warning text-dark")">
+                                    @(s.Quantity <= 2 ? "Krytyczny" : "Niski")
+                                </span>
+                            </span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div>
+                        Stany magazynowe w normie
+                    </div>
+                }
+                <a asp-controller="Longsleeves" asp-action="Index"
+                   class="stretched-link small text-decoration-none mt-auto pt-2">Przejdź do magazynu</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+                <div class="text-secondary mb-2">Najlepsze wzory w tym miesiącu</div>
+                @if (Model.TopDesigns.Any())
+                {
+                    foreach (var s in Model.TopDesigns)
+                    {
+                        <div class="d-flex justify-content-between">
+                            <span>@s.DesignName</span>
+                            <span class="fw-semibold">@s.Quantity szt.</span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div>Brak sprzedaży w tym miesiącu</div>
+                }
+                <a asp-controller="Sales" asp-action="DesignStats"
+                   class="stretched-link small text-decoration-none mt-auto pt-2">Przejdź do podsumowania wzorów</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-secondary mb-2">Ostatnie sprzedaże</div>
+                @if (Model.RecentSales.Any())
+                {
+                    <div class="list-group list-group-flush">
+                        @foreach (var s in Model.RecentSales)
+                        {
+                            var imageUrl = string.IsNullOrEmpty(s.VintedListing?.ImageUrl) ? s.Design?.ImgPath : s.VintedListing.ImageUrl;
+                            <div class="list-group-item d-flex align-items-center gap-3 px-0">
+                                @if (imageUrl != null)
+                                {
+                                    <img src="@imageUrl" alt="" width="56" height="56"
+                                         class="rounded object-fit-cover flex-shrink-0">
+                                }
+                                else
+                                {
+                                    <div class="rounded bg-light flex-shrink-0" style="width: 56px; height: 56px"></div>
+                                }
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">@s.Design?.Name</div>
+                                    <div
+                                        class="small text-secondary">@s.Longsleeve?.Color.GetDisplayName() @s.Longsleeve?.Size · @s.Date.ToString("dd.MM")</div>
+                                </div>
+                                <div class="fw-semibold text-nowrap">@s.Price.ToString("N2") zł</div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div>Brak ostatnich sprzedaży</div>
+                }
+                <a asp-controller="Sales" asp-action="Index"
+                   class="stretched-link"></a>
+            </div>
+        </div>
+    </div>
+</div>
