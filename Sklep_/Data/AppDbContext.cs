@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Sklep_.Models.Stock;
 using Sklep_.Models;
 using Sklep_.Models.Descriptions;
@@ -7,7 +8,7 @@ using Sklep_.Models.Vinted;
 
 namespace Sklep_.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext
 {
     public DbSet<Design> Designs { get; set; }
     public DbSet<Longsleeve> Longsleeves { get; set; }
@@ -21,6 +22,7 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Longsleeve>()
             .HasIndex(l => new { l.Color, l.Size })
             .IsUnique();
