@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sklep_.Data;
 using Sklep_.Models.Sales;
@@ -15,7 +16,6 @@ public class HomeController : Controller
     {
         _context = context;
     }
-
     public IActionResult Index()
     {
         var now = DateTime.Now;
