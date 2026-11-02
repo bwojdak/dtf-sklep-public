@@ -15,7 +15,7 @@ public class LongsleevesController : Controller
 
     public IActionResult Index()
     {
-        return View(_context.Longsleeves.ToList());
+        return View(_context.Longsleeves.OrderBy(s=>s.Color).ThenBy(s=>s.Size).ToList());
     }
 
     [HttpGet]
