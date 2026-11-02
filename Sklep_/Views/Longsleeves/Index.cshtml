@@ -9,7 +9,6 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Id</th>
         <th>Kolor</th>
         <th>Rozmiar</th>
         <th>Ilość</th>
@@ -22,7 +21,6 @@
     @foreach (Longsleeve l in Model)
     {
         <tr>
-            <td>@l.Id</td>
             <td>@l.Color.GetDisplayName()</td>
             <td>@l.Size</td>
             @{
