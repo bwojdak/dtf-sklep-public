@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHostedService<VintedWatcher>();
 builder.Services.AddHttpClient<OpenAiService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=sklep.db"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddAuthorization(options =>
@@ -53,7 +53,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseStaticFiles();
 app.MapStaticAssets().AllowAnonymous();
 
 app.MapControllerRoute(
