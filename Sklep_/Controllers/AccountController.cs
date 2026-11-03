@@ -31,4 +31,11 @@ public class AccountController : Controller
         ModelState.AddModelError("","Nieprawidłowy login lub hasło");
         return View(model);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Login");
+    }
 }
