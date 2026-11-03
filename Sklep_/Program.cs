@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Sklep_.Data;
@@ -14,6 +15,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+var keysPath = builder.Configuration["DataProtection:KeysPath"];                                 
+if (!string.IsNullOrEmpty(keysPath))                                                             
+{                                                                                                
+    builder.Services.AddDataProtection()                                                         
+        .PersistKeysToFileSystem(new DirectoryInfo(keysPath));                                   
+}     
 builder.Services.AddAuthorization(options =>
 {
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
