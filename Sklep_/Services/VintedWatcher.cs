@@ -14,13 +14,15 @@ public class VintedWatcher : BackgroundService
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfiguration _configuration;
+    private readonly VintedStatus _status;
 
     public VintedWatcher(IServiceScopeFactory scopeFactory, IHttpClientFactory httpClientFactory,
-        IConfiguration configuration)
+        IConfiguration configuration, VintedStatus status)
     {
         _httpClientFactory = httpClientFactory;
         _scopeFactory = scopeFactory;
         _configuration = configuration;
+        _status = status;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -46,9 +48,9 @@ public class VintedWatcher : BackgroundService
             {
                 Console.WriteLine($"Profile2 Error: {ex.Message}");
             }
+            _status.LastCheck = DateTime.Now;
 
-
-            await Task.Delay(900000, stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(10), stoppingToken);
         }
     }
 

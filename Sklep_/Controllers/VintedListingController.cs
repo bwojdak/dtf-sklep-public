@@ -1,18 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sklep_.Data;
 using Sklep_.Models.Vinted;
+using Sklep_.Services;
 
 namespace Sklep_.Controllers;
 
 public class VintedListingController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly VintedStatus _status;
 
-    public VintedListingController(AppDbContext context)
+    public VintedListingController(AppDbContext context,VintedStatus status)
     {
         _context = context;
+        _status = status;
     }
-
     public IActionResult Index()
     {
         var listings = _context.VintedListings
@@ -34,5 +36,10 @@ public class VintedListingController : Controller
         {
             return NotFound();
         }
+    }
+
+    public IActionResult LastCheck()
+    {
+        return Json(new { lastCheck = _status.LastCheck });
     }
 }

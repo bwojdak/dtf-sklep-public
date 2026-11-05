@@ -138,3 +138,24 @@
         </div>
     </div>
 </div>
+<div class="text-secondary small mt-3">Strona załadowana: @DateTime.Now.ToString("HH:mm:ss")</div>
+<div id="lastCheckInfo" class="text-secondary small"></div>
+@section Scripts {
+    <script>
+        let last = null;
+        async function check() {
+            const response = await fetch('/VintedListing/LastCheck');
+            const data = await response.json();
+            document.getElementById('lastCheckInfo').textContent = data.lastCheck
+                ? 'Ostatnie sprawdzenie Vinted: ' + new Date(data.lastCheck).toLocaleTimeString('pl-PL')
+                : 'Vinted jeszcze nie sprawdzony';
+            if (last === null) {
+                last = data.lastCheck;
+            } else if (last !== data.lastCheck) {
+                location.reload();
+            }
+        }
+        check();
+        setInterval(check, 30000);
+    </script>
+}
